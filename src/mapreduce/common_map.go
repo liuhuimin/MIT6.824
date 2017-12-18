@@ -73,7 +73,8 @@ func doMap(
 
 	for i := 0; i < nReduce; i++ {
 		filename := reduceName(jobName, mapTaskNumber, i)
-		if _, err := os.Stat(filename); err != nil { //如果文件存在，删除文件，因为后续是创建或追加文件，如果网络断掉但worker执行了程序，重复执行会造成文件内容追加
+		if _, err := os.Stat(filename); err != nil { //如果文件存在，删除文件，因为后续是创建或追加文件，如果网络断掉但worker执行了程序，重复执行会造成文件内容追加;
+			//如果worker执行一半程序被检查到挂掉，就很尴尬了
 			if os.IsNotExist(err) {
 				// file does not exist
 			} else {
